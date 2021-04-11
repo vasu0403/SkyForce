@@ -1,17 +1,40 @@
 import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/build/three.module.js';
-export function loadPlayer(scene) {
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.load('http://localhost:8080/models/jet_final.gltf', (gltf) => {
-        const root = gltf.scene;
-        scene.add(root);
-        root.position.y = 1;
-        console.log(root.position);
-        const box = new THREE.Box3().setFromObject(root);
-        const boxSize = box.getSize(new THREE.Vector3()).length();
-        const boxCenter = box.getCenter(new THREE.Vector3());
-        console.log(root);
-        return root;
-    });
-    console.log("herloo")
+
+export class Player {
+    constructor(scene) {
+        this.scene = scene;
+        this.rotationSpeed = 0.025;
+        this.score = 0;
+        this.lives = 0;
+        this.rotationX = 0;
+        this.rotationZ = 0;
+    }
+    rotateX(direction) {
+        if(direction == 1) {
+            if(this.rotationX <= Math.PI / 4) {
+                this.rotationX += direction * this.rotationSpeed;
+                this.scene.rotateX(direction * this.rotationSpeed);
+            }
+        } else {
+            if(this.rotationX >= -Math.PI / 4) {
+                this.rotationX += direction * this.rotationSpeed;
+                this.scene.rotateX(direction * this.rotationSpeed);
+            }
+        }
+    }
+    RotateBackX() {
+        if(this.rotationX == 0) {
+            return;
+        }
+        if(this.rotationX < 0) {
+            let speed = Math.min(this.rotationSpeed, 0 - this.rotationX);
+            this.rotationX += speed;
+            this.scene.rotateX(speed);
+        } else {
+            let speed = Math.min(this.rotationSpeed, this.rotationX);
+            this.rotationX -= speed;
+            this.scene.rotateX(-speed);
+        }
+    }
 }
