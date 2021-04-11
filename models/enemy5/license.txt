@@ -1,0 +1,11 @@
+Model Information:
+* title:	Guardians of the Galaxy Warbird spaceship
+* source:	https://sketchfab.com/3d-models/guardians-of-the-galaxy-warbird-spaceship-cda42feba4184e6ca51742fb992717d0
+* author:	razzie_mbessai (https://sketchfab.com/razzie_mbessai)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Guardians of the Galaxy Warbird spaceship" (https://sketchfab.com/3d-models/guardians-of-the-galaxy-warbird-spaceship-cda42feba4184e6ca51742fb992717d0) by razzie_mbessai (https://sketchfab.com/razzie_mbessai) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
