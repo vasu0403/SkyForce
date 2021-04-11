@@ -68,17 +68,9 @@ function main() {
         {
             const size = 0.0005;
             models.building2.scene.name = 'building2';
-            models.building2.scene.position.set(30, ground, -10)
+            models.building2.scene.position.set(30, ground, -15.0)
             models.building2.scene.scale.set(buildingSize * size, buildingSize * size, buildingSize * size);
             const model = models.building2.scene.children[0].children[0].children[0].children[0].children[0].children[0];
-            model.material.metalness = 0;
-        }
-        {
-            const size = 0.0004;
-            models.building3.scene.name = 'building3';
-            models.building3.scene.position.set(30, ground, -42)
-            models.building3.scene.scale.set(buildingSize * size, buildingSize * size, buildingSize * size);
-            const model = models.building3.scene.children[0].children[0].children[0].children[0].children[0].children[0];
             model.material.metalness = 0;
         }
 

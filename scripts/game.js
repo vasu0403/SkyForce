@@ -3,8 +3,8 @@ import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threej
 import {Player} from './player.js'
 const CAMERA_POSITION = {
     x: 0,
-    y: 20,
-    z: 10
+    y: 13,
+    z: 20
 }
 export class Game {
     constructor(camera, scene, models, inputManager) {
@@ -23,17 +23,6 @@ export class Game {
 
         this.models.player.scene.rotation.y = -(Math.PI / 2);
 
-        // const color = 0xFFFFFF;
-        // const intensity = 1;
-        // const light = new THREE.DirectionalLight(color, intensity);
-        // light.position.set(0, 10, 0);
-        // light.target.position.set(0, 0, 0);
-        // this.scene.add(light);
-        // this.scene.add(light.target);
-        // const color = 0xFFFFFF;
-        // const intensity = 1;
-        // const light = new THREE.AmbientLight(color, intensity);
-        // this.scene.add(light);
         const skyColor = 0xB1E1FF;  // light blue
         const groundColor = 0xB97A20;  // brownish orange
         const intensity = 1;
@@ -59,16 +48,52 @@ export class Game {
         mesh.rotation.x = Math.PI * -.5;
         mesh.position.y = -50.0;
         this.scene.add(mesh);
-        console.log(this.models.building1.scene.name);
-        this.building1Copy = this.models.building2.scene.clone();
-        this.building1Copy.position.x = -30;
-        this.building1Copy.position.z = -40;
-        scene.add(this.building1Copy);
+
+        this.building2Copy1 = this.models.building2.scene.clone();
+        this.building2Copy1.position.x = -30;
+        this.building2Copy1.position.z = -15.0;
+
+        this.building2Copy2 = this.models.building2.scene.clone();
+        this.building2Copy2.position.x = -30;
+        this.building2Copy2.position.z = -157.5;
+
+        this.building2Copy3 = this.models.building2.scene.clone();
+        this.building2Copy3.position.x = 30;
+        this.building2Copy3.position.z = -157.5;
+
+        this.building2Copy4 = this.models.building2.scene.clone();
+        this.building2Copy4.position.x = 70;
+        this.building2Copy4.position.z = -78.75;
+
+        this.building2Copy5 = this.models.building2.scene.clone();
+        this.building2Copy5.position.x = 70;
+        this.building2Copy5.position.z = -236.25;
+
+        this.building2Copy6 = this.models.building2.scene.clone();
+        this.building2Copy6.position.x = -70;
+        this.building2Copy6.position.z = -78.75;
+
+        this.building2Copy7 = this.models.building2.scene.clone();
+        this.building2Copy7.position.x = -70;
+        this.building2Copy7.position.z = -236.25;
+
+        scene.add(this.building2Copy1);
+        scene.add(this.building2Copy2);
+        scene.add(this.building2Copy3);
+        scene.add(this.building2Copy4);
+        scene.add(this.building2Copy5);
+        scene.add(this.building2Copy6);
+        scene.add(this.building2Copy7);
         this.buildings = [
             this.models.building2.scene,
             this.models.building1.scene,
-            this.models.building3.scene,
-            this.building1Copy
+            this.building2Copy1,
+            this.building2Copy2,
+            this.building2Copy3,
+            this.building2Copy4,
+            this.building2Copy5,
+            this.building2Copy6,
+            this.building2Copy7,
         ];
         // this.scene.add(buildingObject);
     }
@@ -94,14 +119,14 @@ export class Game {
             this.player.RotateBackX();
         }
         for(const building of this.buildings) {
-            building.position.z += 0.15;
+            building.position.z += 0.25;
             if(building.name != 'building1') {
                 if(building.position.z > 15) {
-                    building.position.z = -75;
+                    building.position.z = -300;
                 }
             } else {
                 if(building.position.z > -15) {
-                    building.position.z = -130;
+                    building.position.z = -405;
                 }
             }
         }
