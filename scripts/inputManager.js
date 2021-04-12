@@ -25,6 +25,7 @@ export class InputManager {
     addKey(65, 'A');
     addKey(83, 'S');
     addKey(68, 'D');
+    addKey(69, 'E');
 
     window.addEventListener('keydown', (e) => {
       setKeyFromKeyCode(e.keyCode, true);

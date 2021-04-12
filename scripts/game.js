@@ -117,11 +117,49 @@ export class Game {
                 }
                 let enemyObject = new Enemy(newEnemy, type, this.bound);
                 this.enemies.push(enemyObject);
-
             }
+            this.remove = [];
         }
 
-        this.remove = [];
+        {
+            this.bulletAmmo = []
+            for(let i = 0; i <= 25; i++) {
+                let newBullet = this.models.bullet.scene.clone();
+                newBullet.visible = false;
+                this.scene.add(newBullet);
+                this.bulletAmmo.push(newBullet);
+            }
+            this.bulletSpeed = -0.25;
+            this.lastBulletFireTime = new Date().getTime();
+            this.gapBetweenBullets = 300.
+        }
+
+        {
+            this.enemyBullets = [];
+            for(let i = 0; i <= 60; i++) {
+                let newBullet = this.models.enemyBullet.scene.clone();
+                newBullet.visible = false;
+                this.scene.add(newBullet);
+                this.enemyBullets.push(newBullet);
+            }
+            this.enemyBulletSpeed = 1.00;
+        }
+
+        {
+            this.stars = [];
+            for(let i = 0; i < 5; i++) {
+                const star = this.models.star.scene.clone();
+                star.visible = false;
+                this.stars.push(star);
+                this.scene.add(star);
+            }
+            this.starPosition = -120;
+            this.stars[0].position.z = this.starPosition;
+            this.scene.add(this.stars[0]);
+            this.gapBetweenStars = 5000;
+            this.lastStarTime = new Date().getTime();
+            this.starVelocity = 0.20;
+        }
     }
     update() {
         let leftRightKeyPressed = false;
@@ -141,8 +179,45 @@ export class Game {
             this.player.scene.position.x += 0.1;
             this.player.rotateX(-1);
         }
+        if(this.inputManager.keys.E.down) {
+            let Time = new Date().getTime();
+            if(Time - this.lastBulletFireTime >= this.gapBetweenBullets) {
+                for(let i = 0; i < this.bulletAmmo.length; i++) {
+                    const bullet = this.bulletAmmo[i];
+                    if(bullet.visible == false) {
+                        bullet.position.x = this.player.scene.position.x;
+                        bullet.position.y = this.player.scene.position.y;
+                        bullet.position.z = this.player.scene.position.z;
+                        bullet.visible = true;
+                        this.lastBulletFireTime = Time;
+                        break;
+                    }
+                }
+            }
+        }
         if(!leftRightKeyPressed) {
             this.player.RotateBackX();
+        }
+        let time = new Date().getTime();
+        if(time - this.lastStarTime >= this.gapBetweenStars) {
+            for(let i = 0; i < 5; i++) {
+                const star = this.stars[i];
+                if(star.visible == false) {
+                    this.lastStarTime = time;
+                    star.position.z = this.starPosition;
+                    star.position.x = getRndInteger(-this.bound, this.bound);
+                    star.visible = true;
+                    break;
+                }
+            }
+        }
+        for(let i = 0; i < 5; i++) {
+            const star = this.stars[i];
+            if(star.visible) {
+                star.position.z += this.starVelocity;
+                star.rotateY(0.1);
+            }
+
         }
         for(const building of this.buildings) {
             building.position.z += 0.25;
@@ -156,28 +231,86 @@ export class Game {
                 }
             }
         }
+        const playerBox = new THREE.Box3().setFromObject(this.player.scene);
         for(let i = 0; i < this.enemies.length; i++) {
             const enemy = this.enemies[i].scene;
+            if(enemy.visible == false) {
+                continue;
+            }
             enemy.position.z += this.enemyVelocityZ;
             if(enemy.position.z > 15) {
-                if(!enemy.added_to_remove_list) {
-                    enemy.added_to_remove_list = true;
-                    this.remove.push(enemy);
+                enemy.visible = false;
+                this.remove.push(enemy);
+                continue;
+            }
+            if(this.enemies[i].canFire()) {
+                for(let j = 0; j < this.enemyBullets.length; j++) {
+                    const bullet = this.enemyBullets[j];
+                    if(bullet.visible == false) {
+                        bullet.position.x = enemy.position.x;
+                        bullet.position.y = enemy.position.y;
+                        bullet.position.z = enemy.position.z;
+                        bullet.visible = true;
+                        break;
+                    }
                 }
             }
-            if(enemy.visible) {
-                this.enemies[i].zigZag();
+            this.enemies[i].zigZag();
+            const enemyBox = new THREE.Box3().setFromObject(enemy);
+            if(playerBox.intersectsBox(enemyBox)) {
+                // console.log("YES\n");
             }
         }
         let toRemove = this.remove.length;
         if(toRemove > 1) {
             const index = Math.floor(Math.random() * toRemove)
             const enemy = this.remove[index];
-            enemy.added_to_remove_list = false;
             enemy.position.z = this.enemyResponPosition;
             enemy.position.x = getRndInteger(-this.bound, this.bound);
             enemy.visible = true;
             this.remove.splice(index, 1);
+        }
+        for(let i = 0; i < this.bulletAmmo.length; i++) {
+            const bullet = this.bulletAmmo[i];
+            if(bullet.visible == false) {
+                continue;
+            }
+            bullet.position.z += this.bulletSpeed;
+            if(bullet.position.z <= -100) {
+                bullet.visible = false;
+            } else {
+                const bulletBox = new THREE.Box3().setFromObject(bullet);
+                for(let j = 0; j < this.enemies.length; j++) {
+                    const enemy = this.enemies[j].scene;
+                    if(enemy.visible == false) {
+                        continue;
+                    }
+                    const enemyBox = new THREE.Box3().setFromObject(enemy);
+                    if(bulletBox.intersectsBox(enemyBox)) {
+                        this.player.score += 1;
+                        this.remove.push(enemy);
+                        bullet.visible = false;
+                        enemy.visible = false;
+                        break;
+                    }
+                }
+            }
+        }
+        for(let i = 0; i < this.enemyBullets.length; i++) {
+            const bullet = this.enemyBullets[i];
+            if(bullet.visible == false) {
+                continue;
+            }
+            bullet.position.z += this.enemyBulletSpeed;
+            if(bullet.position.z >= 10) {
+                bullet.visible = false;
+            } else {
+                const bulletBox = new THREE.Box3().setFromObject(bullet);
+                if(bulletBox.intersectsBox(playerBox)) {
+                    bullet.visible = false;
+                    console.log("hit");
+                }
+            }
         }
     }
 }

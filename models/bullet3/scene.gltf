@@ -1,0 +1,279 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 4704,
+      "max": [
+        1.1973299980163574,
+        2.7772200107574463,
+        2.3479900360107422
+      ],
+      "min": [
+        -1.0676499605178833,
+        -2.3269500732421875,
+        0.35188001394271851
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 56448,
+      "componentType": 5126,
+      "count": 4704,
+      "max": [
+        0.99979537725448608,
+        0.99877679347991943,
+        0.99982357025146484
+      ],
+      "min": [
+        -0.99979537725448608,
+        -0.99877679347991943,
+        -0.99982357025146484
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 4704,
+      "max": [
+        0.99433916807174683,
+        0.77340835332870483,
+        0.59441417455673218,
+        1
+      ],
+      "min": [
+        -0.99990677833557129,
+        -0.80725103616714478,
+        -0.99998265504837036,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 4704,
+      "max": [
+        0.71688997745513916,
+        0.99987000226974487
+      ],
+      "min": [
+        0.00013000000035390258,
+        0.00013000000035390258
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 14160,
+      "max": [
+        4703
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "finaleffect00 (https://sketchfab.com/finaleffect00)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/bullet-45a6a7364ebe470ea53a96833d0f92dc",
+      "title": "Bullet"
+    },
+    "generator": "Sketchfab-6.33.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 56640,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 37632,
+      "byteOffset": 56640,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 112896,
+      "byteOffset": 94272,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 75264,
+      "byteOffset": 207168,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 282432,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "Material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Sphere_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -0.0084594497457146645,
+        0.99996423721313477,
+        0,
+        0,
+        -0.99996423721313477,
+        -0.0084594497457146645,
+        0,
+        0,
+        4.1966285705566406,
+        2.9058735370635986,
+        1
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3,
+        5
+      ],
+      "name": "Root"
+    },
+    {
+      "children": [
+        4
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -0.42720000000000002,
+        0.43248000000000009,
+        2.18364,
+        1
+      ],
+      "name": "Sphere"
+    },
+    {
+      "mesh": 0,
+      "name": "Sphere_0"
+    },
+    {
+      "children": [
+        6
+      ],
+      "matrix": [
+        0.44652000000000008,
+        0.73280000000000012,
+        -0.51344000000000001,
+        0,
+        -0.74129000000000012,
+        0.62433000000000005,
+        0.24638000000000002,
+        0,
+        0.50110999999999994,
+        0.27060000000000001,
+        0.82199000000000011,
+        0,
+        5.6897700000000002,
+        3.1074100000000002,
+        13.477030000000001,
+        1
+      ],
+      "name": "Spot"
+    },
+    {
+      "name": "Spot"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
+

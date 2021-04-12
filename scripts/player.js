@@ -6,7 +6,7 @@ export class Player {
         this.scene = scene;
         this.rotationSpeed = 0.025;
         this.score = 0;
-        this.lives = 0;
+        this.lives = 10;
         this.rotationX = 0;
         this.rotationZ = 0;
     }

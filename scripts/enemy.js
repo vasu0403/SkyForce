@@ -13,6 +13,8 @@ export class Enemy {
         this.zigZagVelocity = 0.1;
         this.rotation = 0;
         this.rotationSpeed = 0.005;
+        this.gapBetweenBullets = 800;
+        this.lastBulletFireTime = new Date().getTime();
     }
     zigZag() {
         if(this.type == 'easy') {
@@ -38,5 +40,13 @@ export class Enemy {
                 this.direction *= -1;
             }
         }
+    }
+    canFire() {
+        const curTime = new Date().getTime();
+        if(curTime - this.lastBulletFireTime >= this.gapBetweenBullets) {
+            this.lastBulletFireTime = curTime;
+            return true;
+        }
+        return false;
     }
 }
