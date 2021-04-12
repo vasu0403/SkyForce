@@ -7,3 +7,9 @@ html, body {
    height: 100%;
    display: block;
 }
+#HUD {
+    position: absolute;
+    color: white;
+    top: 0px;
+    left: 5px;
+}

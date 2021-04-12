@@ -39,6 +39,7 @@ export class Game {
         const groundColor = 0xB97A20;  // brownish orange
         const intensity = 1;
         const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+        this.HUDElement = document.querySelector('#HUD');
         this.scene.add(light);
         {
             this.building2Copy1 = this.models.building2.scene.clone();
@@ -161,7 +162,12 @@ export class Game {
             this.starVelocity = 0.20;
         }
     }
+    changeHUD() {
+        let text = "Lives: " + this.player.lives + "<br>Score: " + this.player.score;
+        this.HUDElement.innerHTML = text;
+    }
     update() {
+        this.changeHUD();
         let leftRightKeyPressed = false;
         if(this.inputManager.keys.W.down) {
             this.player.scene.position.z -= 0.1;
@@ -211,11 +217,22 @@ export class Game {
                 }
             }
         }
+        const playerBox = new THREE.Box3().setFromObject(this.player.scene);
         for(let i = 0; i < 5; i++) {
             const star = this.stars[i];
             if(star.visible) {
                 star.position.z += this.starVelocity;
                 star.rotateY(0.1);
+                if(star.position.z >= 15) {
+                    star.visible = false;
+                } else {
+                    const starBox = new THREE.Box3().setFromObject(star);
+                    if(starBox.intersectsBox(playerBox)) {
+                        star.visible = false;
+                        this.player.score += 10;
+                        this.changeHUD();
+                    }
+                }
             }
 
         }
@@ -231,7 +248,6 @@ export class Game {
                 }
             }
         }
-        const playerBox = new THREE.Box3().setFromObject(this.player.scene);
         for(let i = 0; i < this.enemies.length; i++) {
             const enemy = this.enemies[i].scene;
             if(enemy.visible == false) {
@@ -258,7 +274,9 @@ export class Game {
             this.enemies[i].zigZag();
             const enemyBox = new THREE.Box3().setFromObject(enemy);
             if(playerBox.intersectsBox(enemyBox)) {
-                // console.log("YES\n");
+                this.player.lives -= 2;
+                enemy.visible = false;
+                this.remove.push(enemy);
             }
         }
         let toRemove = this.remove.length;
@@ -288,6 +306,7 @@ export class Game {
                     const enemyBox = new THREE.Box3().setFromObject(enemy);
                     if(bulletBox.intersectsBox(enemyBox)) {
                         this.player.score += 1;
+                        this.changeHUD();
                         this.remove.push(enemy);
                         bullet.visible = false;
                         enemy.visible = false;
@@ -308,9 +327,12 @@ export class Game {
                 const bulletBox = new THREE.Box3().setFromObject(bullet);
                 if(bulletBox.intersectsBox(playerBox)) {
                     bullet.visible = false;
+                    this.changeHUD();
+                    this.player.lives -= 1;
                     console.log("hit");
                 }
             }
         }
+
     }
 }
