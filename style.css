@@ -13,3 +13,11 @@ html, body {
     top: 0px;
     left: 5px;
 }
+#end {
+    position: fixed;
+    color: white;
+    top: 40%;
+    left: 42.5%;
+    text-align: center;
+    font-size: 50px;
+}

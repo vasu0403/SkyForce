@@ -9,7 +9,7 @@ import {Enemy} from './enemy.js'
 // }
 const CAMERA_POSITION = {
     x: 0,
-    y: 9,
+    y: 5,
     z: 20
 }
 function getRndInteger(min, max) {
@@ -21,15 +21,11 @@ export class Game {
         this.scene = scene;
         this.models = models;
         this.inputManager = inputManager;
-        this.bound = 20;
+        this.bound = 16;
         this.enemyVelocityZ = 0.20;
         this.enemyResponPosition = -100;
 
         this.player = new Player(this.models.player.scene);
-        const axes = new THREE.AxesHelper();
-        axes.material.depthTest = false;
-        axes.renderOrder = 1;
-        this.models.player.scene.add(axes);
         this.camera.position.set(CAMERA_POSITION.x, CAMERA_POSITION.y, CAMERA_POSITION.z);
         this.camera.lookAt(0, 0, 0);
 
@@ -143,7 +139,7 @@ export class Game {
                 this.scene.add(newBullet);
                 this.enemyBullets.push(newBullet);
             }
-            this.enemyBulletSpeed = 1.00;
+            this.enemyBulletSpeed = 0.75;
         }
 
         {
@@ -168,22 +164,41 @@ export class Game {
     }
     update() {
         this.changeHUD();
+        if(this.player.lives <= 0) {
+            this.HUDElement.innerHTML = "";
+            while(this.scene.children.length > 0) {
+                this.scene.remove(this.scene.children[0]);
+            }
+            const endElement = document.querySelector('#end');
+            let text = "GAME OVER<br>Score: " + this.player.score;
+            endElement.innerHTML = text;
+            return;
+        }
         let leftRightKeyPressed = false;
         if(this.inputManager.keys.W.down) {
             this.player.scene.position.z -= 0.1;
         }
         if(this.inputManager.keys.S.down) {
             this.player.scene.position.z += 0.1;
+            if(this.player.scene.position.z >= 7) {
+                this.player.scene.position.z = 7
+            }
         }
         if(this.inputManager.keys.A.down) {
             leftRightKeyPressed = true;
             this.player.scene.position.x -= 0.1;
             this.player.rotateX(1);
+            if(this.player.scene.position.x < -this.bound) {
+                this.player.scene.position.x = -this.bound;
+            }
         }
         if(this.inputManager.keys.D.down) {
             leftRightKeyPressed = true;
             this.player.scene.position.x += 0.1;
             this.player.rotateX(-1);
+            if(this.player.scene.position.x > this.bound) {
+                this.player.scene.position.x = this.bound;
+            }
         }
         if(this.inputManager.keys.E.down) {
             let Time = new Date().getTime();
@@ -277,6 +292,7 @@ export class Game {
                 this.player.lives -= 2;
                 enemy.visible = false;
                 this.remove.push(enemy);
+                this.changeHUD();
             }
         }
         let toRemove = this.remove.length;
@@ -327,9 +343,8 @@ export class Game {
                 const bulletBox = new THREE.Box3().setFromObject(bullet);
                 if(bulletBox.intersectsBox(playerBox)) {
                     bullet.visible = false;
-                    this.changeHUD();
                     this.player.lives -= 1;
-                    console.log("hit");
+                    this.changeHUD();
                 }
             }
         }

@@ -14,9 +14,6 @@ function main() {
     const far = 500;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
-    const controls = new OrbitControls(camera, canvas);
-    controls.target.set(0, 0, 0);
-    controls.update();
 
     const fogColor = 0x000000;  //
     const fogNear = 200;
@@ -24,6 +21,35 @@ function main() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('black');
     scene.fog = new THREE.Fog(fogColor, fogNear, fogFar);
+
+    {
+        const planeSize = 2000;
+        const loader = new THREE.TextureLoader();
+        const texture = loader.load('http://localhost:8080/images/road8.jpg');
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.magFilter = THREE.NearestFilter;
+        const repeats = 100;
+        texture.repeat.set(2, 100);
+
+        const planeGeo = new THREE.PlaneGeometry(20, planeSize);
+        const planeMat = new THREE.MeshPhongMaterial({
+            map: texture,
+            side: THREE.DoubleSide,
+        });
+        const road_left = new THREE.Mesh(planeGeo, planeMat);
+        road_left.position.y = -50;
+        road_left.position.x = -50;
+        road_left.position.z = -1000;
+        road_left.rotation.x = Math.PI * -.5;
+
+        const road_right = road_left.clone();
+        road_right.position.x = 50;
+        scene.add(road_left);
+        scene.add(road_right);
+    }
+
+
     // scene.fog = new THREE.FogExp2(0x03544e, 0.001);
     {
         const color = 0xFAFAFA;  // white
@@ -36,20 +62,16 @@ function main() {
         // scene.fog = new THREE.FogExp2(color, density);
     }
 
-    const axesHelper = new THREE.AxesHelper( 5 );
-    scene.add( axesHelper );
 
     const models = {
         player: {url: 'http://localhost:8080/models/jet_final.gltf'},
         building1: {url: 'http://localhost:8080/models/building1/scene.gltf'},
         building2: {url: 'http://localhost:8080/models/building2/scene.gltf'},
-        building3: {url: 'http://localhost:8080/models/building3/scene.gltf'},
         enemy1: {url: 'http://localhost:8080/models/enemy5/scene.gltf'},
         enemy2: {url: 'http://localhost:8080/models/enemy6/scene.gltf'},
         bullet: {url: 'http://localhost:8080/models/bullet1/scene.gltf'},
         enemyBullet: {url: 'http://localhost:8080/models/bullet3/scene.gltf'},
         star: {url: 'http://localhost:8080/models/star/scene.gltf'},
-        moon: {url: 'http://localhost:8080/models/moon/scene.gltf'},
     }
     const manager = new THREE.LoadingManager();
     const gltfLoader = new GLTFLoader(manager);
@@ -123,13 +145,13 @@ function main() {
             models.star.scene.scale.set(0.5, 0.5, 0.5);
         }
         {
-            const color = 0xFFFFFF;
-            const intensity = 0.1;
-            const light = new THREE.PointLight(color, intensity);
-            models.moon.scene.scale.set(0.05, 0.05, 0.05);
-            models.moon.scene.add(light);
-            models.moon.scene.position.set(-10, 10, -100);
-            scene.add(models.moon.scene);
+            // const color = 0xFFFFFF;
+            // const intensity = 0.1;
+            // const light = new THREE.PointLight(color, intensity);
+            // models.moon.scene.scale.set(0.05, 0.05, 0.05);
+            // models.moon.scene.add(light);
+            // models.moon.scene.position.set(-10, 10, -100);
+            // scene.add(models.moon.scene);
         }
         let inputManager = new InputManager();
         game = new Game(camera, scene, models, inputManager);
